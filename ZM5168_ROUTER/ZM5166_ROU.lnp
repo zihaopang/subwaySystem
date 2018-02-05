@@ -1,0 +1,6 @@
+"STARTUP.obj",
+"zm5168_rou.obj",
+"UART.obj",
+"delay.obj" 
+TO "ZM5166_ROU" 
+RAMSIZE(256) 

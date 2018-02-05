@@ -1,0 +1,75 @@
+C51 COMPILER V9.51   MAIN                                                                  05/22/2016 16:29:23 PAGE 1   
+
+
+C51 COMPILER V9.51, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: E:\suqian software\UV4\C51\BIN\C51.EXE main.c BROWSE INCDIR(.\delay;.\UART) DEBUG OBJECTEXTEND TABS
+                    -(2)
+
+line level    source
+
+   1          /**************************************/
+   2          /*                                    */ 
+   3          /*    zm5168项目终端部分实施代码      */
+   4          /*       俞传富、周洁、庞子皓         */ 
+   5          /*           2016/5/11                */
+   6          /*                                    */
+   7          /**************************************/
+   8          
+   9          #include <reg52.h>
+  10          #include "delay.h"
+  11          #include "UART.h"
+  12          
+  13          #define OPEN 0xf0
+  14          #define CLOSED 0x0f
+  15          #define ADDRESS 0x2001
+  16          #define MAX_LINE 5
+  17          #define BEGIN_FLAG 0xaa
+  18          #define STOP_FLAG 0x55
+  19          
+  20          sbit resetn = P0^0;
+  21          
+  22          unsigned char send_line[MAX_LINE];
+  23          
+  24          void main()
+  25          {
+  26   1        resetn = 0;
+  27   1        delay_ms(2);
+  28   1        resetn = 1;
+  29   1        
+  30   1        uart_init();
+  31   1      
+  32   1      
+  33   1        send_line[0] = BEGIN_FLAG;
+  34   1        send_line[MAX_LINE - 1] = STOP_FLAG;
+  35   1       
+  36   1        send_line[1] = ADDRESS >> 8;
+  37   1        send_line[2] = ADDRESS & 0x00ff;
+  38   1        send_line[3] = OPEN;
+  39   1        
+  40   1        uart_send_str(send_line);
+  41   1        
+  42   1        
+  43   1        
+  44   1        while(1)
+  45   1        {
+  46   2            delay_s(1);         
+  47   2            uart_send_str(send_line);                   
+  48   2        }
+  49   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     52    ----
+   CONSTANT SIZE    =   ----    ----
+C51 COMPILER V9.51   MAIN                                                                  05/22/2016 16:29:23 PAGE 2   
+
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      5    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
